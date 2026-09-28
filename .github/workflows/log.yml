@@ -2,25 +2,27 @@ name: Log CoRec counts
 
 on:
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "7,27,47 * * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
 
-concurrency:
-  group: corec-log
-
 jobs:
   log:
     runs-on: ubuntu-24.04
+
     steps:
       - uses: actions/checkout@v5
+
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
+
       - run: pip install requests
+
       - run: python log_counts.py
+
       - name: Commit new data
         run: |
           git config user.name "corec-logger"
